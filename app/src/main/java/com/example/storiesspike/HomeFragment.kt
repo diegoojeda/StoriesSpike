@@ -1,6 +1,8 @@
 package com.example.storiesspike
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,45 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.storiesRv.adapter = StoriesListAdapter(librariesList) {
             findNavController().navigate(HomeFragmentDirections.toLibraryDetail(it))
         }
+
+        binding.internalEt.onFocusChangeListener = View.OnFocusChangeListener { _, focusGained ->
+            if (focusGained) {
+                binding.internalEt.hint = "Type your email here"
+            }
+            else {
+                binding.internalEt.hint = null
+            }
+        }
+
+        binding.internalEt2.onFocusChangeListener = View.OnFocusChangeListener { _, focusGained ->
+
+            if (focusGained) {
+                binding.internalEt2.hint = "Type your password here"
+            }
+            else {
+                binding.internalEt2.hint = null
+            }
+
+        }
+
+        binding.internalEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                p0?.let {
+                    if (it.length > 10) {
+                        binding.textField.error = "Mensaje muy largo"
+                    }
+                    else {
+                        binding.textField.error = null
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
     }
 }
 
